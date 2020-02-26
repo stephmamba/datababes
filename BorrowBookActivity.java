@@ -189,62 +189,26 @@ public class BorrowBookActivity {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(30, 30, 630, 345);
 		frmRet.getContentPane().add(scrollPane);
-
-		//JTable
+		
 		table = new JTable();
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-		DefaultTableModel model = new DefaultTableModel();
-        
-		Object[] columnsName = new Object[5];
-       
-		columnsName[0] = "ISBN";
-		columnsName[1] = "Title";
-		columnsName[2] = "Published";
-		columnsName[3] = "Shelf ID";
-		columnsName[4] = "Date Borrowed";
-   
-		model.setColumnIdentifiers(columnsName);
-		table.setModel(model);
-
-		populateTable();
-		
-		
-		table.getColumnModel().getColumn(0).setPreferredWidth(43);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"ISBN", "Title", "Published", "Shelf ID", "Date Borrowed"
+			}
+		));
+		table.getColumnModel().getColumn(4).setPreferredWidth(84);
 		scrollPane.setViewportView(table);
 		
 		JButton btnReturn = new JButton("Return Book");
-		btnReturn.setBounds(30, 600, 130, 23);
+		btnReturn.setBounds(30, 427, 130, 23);
 		frmRet.getContentPane().add(btnReturn);
 		
 		JButton btnReserve = new JButton("Reserve Book");
-		btnReserve.setBounds(1, 1, 130, 23);
+		btnReserve.setBounds(30, 393, 130, 23);
 		frmRet.getContentPane().add(btnReserve);
 
-		/*		
-	//	table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			
-		//	@Override
-			public void valueChanged(ListSelectionEvent e) {
-				 //TODO Auto-generated method stub
-				int row = table.getSelectedRow();
-				String value = table.getModel().getValueAt(row, 0).toString();
-				//UserID.setText(value);
-				
-				//loadUser(value);
-				
-			
-			}
-		});
-		
-	
-			//JTable
-		
-
-
-		
-	
-	} */
 
 }
 }

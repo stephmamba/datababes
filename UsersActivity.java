@@ -85,6 +85,7 @@ public class UsersActivity {
 
 	
 int buttonState = 1; //Determine which button was clicked, Add User or Edit User
+private JTable table_1;
 
 	
 	static Connection getConn() {
@@ -202,54 +203,26 @@ int buttonState = 1; //Determine which button was clicked, Add User or Edit User
 		frmUsers = new JFrame();
 		frmUsers.setResizable(false);
 		frmUsers.setTitle("Databetes Library System");
-		frmUsers.setBounds(100, 100, 826, 430);
+		frmUsers.setBounds(100, 100, 691, 430);
 		frmUsers.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmUsers.getContentPane().setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(170, 30, 630, 345);
+		scrollPane.setBounds(170, 30, 493, 345);
 		frmUsers.getContentPane().add(scrollPane);
-
-		//JTable
-		table = new JTable();
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-		DefaultTableModel model = new DefaultTableModel();
-        
-		Object[] columnsName = new Object[5];
-       
-		columnsName[0] = "User ID";
-		columnsName[1] = "User Name";
-		columnsName[2] = "Last Name";
-		columnsName[3] = "First Name";
-		columnsName[4] = "Unpaid Fines";
-   
-		model.setColumnIdentifiers(columnsName);
-		table.setModel(model);
-
-		populateTable();
 		
-		
-		table.getColumnModel().getColumn(0).setPreferredWidth(43);
-		scrollPane.setViewportView(table);
-		
-	//	table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			
-		//	@Override
-		/*	public void valueChanged(ListSelectionEvent e) {
-				 //TODO Auto-generated method stub
-				//int row = table.getSelectedRow();
-				//String value = table.getModel().getValueAt(row, 0).toString();
-				//UserID.setText(value);
-				
-				//loadUser(value);
-				
-			
+		table_1 = new JTable();
+		table_1.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"User ID", "First name", "Last name", "Books Borrowed", "Transaction Status", "Pending Fines"
 			}
-		});
-		
-		*/
-			//JTable
+		));
+		table_1.getColumnModel().getColumn(3).setPreferredWidth(92);
+		table_1.getColumnModel().getColumn(4).setPreferredWidth(104);
+		table_1.getColumnModel().getColumn(5).setPreferredWidth(83);
+		scrollPane.setViewportView(table_1);
 		
 		btnAddUser = new JButton("Add User");
 		btnAddUser.setBounds(25, 30, 130, 23);

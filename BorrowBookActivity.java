@@ -183,11 +183,11 @@ public class BorrowBookActivity {
 		frmRet = new JFrame();
 		frmRet.setResizable(false);
 		frmRet.setTitle("Books");
-		frmRet.setBounds(100, 100, 700, 500);
+		frmRet.setBounds(100, 100, 530, 500);
 		frmRet.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmRet.getContentPane().setLayout(null);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(30, 30, 630, 345);
+		scrollPane.setBounds(30, 30, 452, 345);
 		frmRet.getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -202,12 +202,16 @@ public class BorrowBookActivity {
 		scrollPane.setViewportView(table);
 		
 		JButton btnReturn = new JButton("Return Book");
-		btnReturn.setBounds(30, 427, 130, 23);
+		btnReturn.setBounds(187, 393, 130, 23);
 		frmRet.getContentPane().add(btnReturn);
 		
 		JButton btnReserve = new JButton("Reserve Book");
-		btnReserve.setBounds(30, 393, 130, 23);
+		btnReserve.setBounds(352, 393, 130, 23);
 		frmRet.getContentPane().add(btnReserve);
+		
+		JButton btnBorrow = new JButton("Borrow Book");
+		btnBorrow.setBounds(30, 393, 130, 23);
+		frmRet.getContentPane().add(btnBorrow);
 
 
 }

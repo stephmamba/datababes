@@ -43,7 +43,7 @@ public class LoginActivity {
 	private boolean isConnOpen() {
 		
 		String DBURL = "jdbc:oracle:thin:@localhost:1521:orcl";
-		String suname = "test";
+		String suname = "bebase";
 		String spass = "oracle";
 		
 		try {
@@ -112,7 +112,7 @@ public class LoginActivity {
 					if (username.trim().isEmpty() || passowrd.trim().isEmpty()) {
 						JOptionPane.showMessageDialog(null, "User Name and Password must not be empty");
 					} else if (isConnOpen()) {
-						String sql = "SELECT loginid, password FROM patron WHERE username = '"+username+"' AND password = '"+passowrd+"'";
+						String sql = "SELECT UserID, password FROM Librarian WHERE UserID = '"+username+"' AND password = '"+passowrd+"'";
 						Statement st =  conn.createStatement();
 						ResultSet result = st.executeQuery(sql);
 						
@@ -158,7 +158,7 @@ public class LoginActivity {
 					if (username.trim().isEmpty() || passowrd.trim().isEmpty()) {
 						JOptionPane.showMessageDialog(null, "User Name and Password must not be empty");
 					} else if (isConnOpen()) {
-						String sql = "SELECT loginid, password FROM patron WHERE username = '"+username+"' AND password = '"+passowrd+"'";
+						String sql = "SELECT UserID, password FROM patron WHERE username = '"+username+"' AND password = '"+passowrd+"'";
 						Statement st =  conn.createStatement();
 						ResultSet result = st.executeQuery(sql);
 						

@@ -11,7 +11,7 @@ public abstract class DBConnection {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			String DBURL = "jdbc:oracle:thin:@localhost:1521:orcl";
-			String suname = "test";
+			String suname = "bebase";
 			String spass = "oracle";
 						
 			if(conn == null || conn.isClosed()) 

@@ -1,22 +1,30 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.sql.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AddBookActivity extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_5;
-	private JTextField textField_4;
+	private JTextField textIsbn;
+	private JTextField textBookTitle;
+	private JTextField textDatePublished;
+	private JTextField textAuthorId;
+	private JTextField textCopyId;
+	private JTextField textShelfId;
+	
+	Connection conn = null;
+	Statement st = null;
+	ResultSet rs = null;
 
 	/**
 	 * Launch the application.
@@ -73,43 +81,62 @@ public class AddBookActivity extends JFrame {
 		lblCopyId.setBounds(10, 174, 74, 14);
 		contentPane.add(lblCopyId);
 		
-		textField = new JTextField();
-		textField.setBounds(108, 45, 200, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textIsbn = new JTextField();
+		textIsbn.setBounds(108, 45, 200, 20);
+		contentPane.add(textIsbn);
+		textIsbn.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(108, 70, 200, 20);
-		contentPane.add(textField_1);
+		textBookTitle = new JTextField();
+		textBookTitle.setColumns(10);
+		textBookTitle.setBounds(108, 70, 200, 20);
+		contentPane.add(textBookTitle);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(108, 93, 200, 20);
-		contentPane.add(textField_2);
+		textDatePublished = new JTextField();
+		textDatePublished.setColumns(10);
+		textDatePublished.setBounds(108, 93, 200, 20);
+		contentPane.add(textDatePublished);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(108, 118, 200, 20);
-		contentPane.add(textField_3);
+		textAuthorId = new JTextField();
+		textAuthorId.setColumns(10);
+		textAuthorId.setBounds(108, 118, 200, 20);
+		contentPane.add(textAuthorId);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(108, 171, 200, 20);
-		contentPane.add(textField_5);
+		textCopyId = new JTextField();
+		textCopyId.setColumns(10);
+		textCopyId.setBounds(108, 171, 200, 20);
+		contentPane.add(textCopyId);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(108, 146, 200, 20);
-		contentPane.add(textField_4);
+		textShelfId = new JTextField();
+		textShelfId.setColumns(10);
+		textShelfId.setBounds(108, 146, 200, 20);
+		contentPane.add(textShelfId);
 		
 		JButton btnAddBook = new JButton("Add Book");
+		btnAddBook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(
+					textIsbn.getText().isEmpty() ||
+					textBookTitle.getText().isEmpty() ||
+					textDatePublished.getText().isEmpty() ||
+					textAuthorId.getText().isEmpty() ||
+					textCopyId.getText().isEmpty() ||
+					textShelfId.getText().isEmpty()
+						) {
+					
+					JOptionPane.showMessageDialog(null, "Fields are empty", "Error", JOptionPane.INFORMATION_MESSAGE);
+					
+				}
+				
+			}
+		});
 		btnAddBook.setBounds(10, 214, 89, 23);
 		contentPane.add(btnAddBook);
 		
-		JButton btnNewButton = new JButton("Cancel");
-		btnNewButton.setBounds(225, 214, 89, 23);
-		contentPane.add(btnNewButton);
+		JButton btnCancelBook = new JButton("Cancel");
+		btnCancelBook.setBounds(225, 214, 89, 23);
+		contentPane.add(btnCancelBook);
+		
 	}
 
 }

@@ -27,14 +27,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 
 // class to handle array list
-class UserList {
+class PatronList {
 	private int userid;
     private String lastname;
     private String firstname;
     private String booksquantity;
     private String unpaidfines;
     
-    public UserList(int id, String fname, String lname,
+    public PatronList(int id, String fname, String lname,
     		String numofbooks, String fines){
         this.userid = id;
         this.firstname = fname;
@@ -67,18 +67,11 @@ class UserList {
 }
 
 
-public class UsersActivity {
+public class PatronActivity {
 
-	private JFrame frmUsers;
+	private JFrame frmPatron;
 	private JTable table;
-	private JButton btnAddUser;
-	private JButton btnEditUser;
-	private JButton btnDeleteUser;
-	private JButton btnAddbook;
-	private JButton btnEditbook;
-	private JButton btnDeletebook;
 	private JButton btnBorrowBook;
-	private JButton btnPayFines;
 	private JButton btnLogout;
 
 	
@@ -86,6 +79,7 @@ public class UsersActivity {
 	
 int buttonState = 1; //Determine which button was clicked, Add User or Edit User
 private JTable table_1;
+private JButton btnNewButton;
 
 	
 	static Connection getConn() {
@@ -109,10 +103,10 @@ private JTable table_1;
 	}
 	
 	//populate array list for JTable
-	static ArrayList<UserList> listUsers() {
-		ArrayList<UserList> userlist = new ArrayList<UserList>();
+	static ArrayList<PatronList> listPatron() {
+		ArrayList<PatronList> patronlist = new ArrayList<PatronList>();
 		Connection conn = getConn();
-		UserList ul;
+		PatronList pl;
 		
 		try {
 			
@@ -123,17 +117,17 @@ private JTable table_1;
 			
 			while (result.next()) {
 				//System.out.println(result.getString(1).toString());
-				ul = new UserList(
+				pl = new PatronList(
 						result.getInt(1), 
 						result.getString(2),
 						result.getString(3),
 						result.getString(4),
 						result.getString(5).toString());
 				
-				userlist.add(ul);
+				patronlist.add(pl);
 			}
 		
-			return userlist;
+			return patronlist;
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			return null;
@@ -148,8 +142,8 @@ private JTable table_1;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UsersActivity window = new UsersActivity();
-					window.frmUsers.setVisible(true);
+					PatronActivity window = new PatronActivity();
+					window.frmPatron.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -160,7 +154,7 @@ private JTable table_1;
 	/**
 	 * Create the application.
 	 */
-	public UsersActivity() {
+	public PatronActivity() {
 		initialize();
 	}
 	
@@ -178,13 +172,13 @@ private JTable table_1;
 		table.setModel(model);
 		
 		//re-populate table rows
-		for(int i = 0; i < listUsers().size(); i++){
+		for(int i = 0; i < listPatron().size(); i++){
 			
-	        rowData[0] = listUsers().get(i).getUserID();
-	        rowData[1] = listUsers().get(i).getFirstname();
-	        rowData[2] = listUsers().get(i).getLastname();
-	        rowData[3] = listUsers().get(i).getBooksBorrowed();
-	    	rowData[4] = listUsers().get(i).getUnpaidFines();
+	        rowData[0] = listPatron().get(i).getUserID();
+	        rowData[1] = listPatron().get(i).getFirstname();
+	        rowData[2] = listPatron().get(i).getLastname();
+	        rowData[3] = listPatron().get(i).getBooksBorrowed();
+	    	rowData[4] = listPatron().get(i).getUnpaidFines();
 	   
 	        
 	    	model.addRow(rowData);
@@ -200,16 +194,16 @@ private JTable table_1;
 	private void initialize() {
 		
 		//Form Constructor
-		frmUsers = new JFrame();
-		frmUsers.setResizable(false);
-		frmUsers.setTitle("Databetes Library System");
-		frmUsers.setBounds(100, 100, 691, 430);
-		frmUsers.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmUsers.getContentPane().setLayout(null);
+		frmPatron = new JFrame();
+		frmPatron.setResizable(false);
+		frmPatron.setTitle("Databetes Library System");
+		frmPatron.setBounds(100, 100, 691, 430);
+		frmPatron.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmPatron.getContentPane().setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(170, 30, 493, 345);
-		frmUsers.getContentPane().add(scrollPane);
+		frmPatron.getContentPane().add(scrollPane);
 		
 		table_1 = new JTable();
 		table_1.setModel(new DefaultTableModel(
@@ -223,84 +217,14 @@ private JTable table_1;
 		table_1.getColumnModel().getColumn(4).setPreferredWidth(104);
 		table_1.getColumnModel().getColumn(5).setPreferredWidth(83);
 		scrollPane.setViewportView(table_1);
-		
-		btnAddUser = new JButton("Add User");
-		btnAddUser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					AddUserActivity window = new AddUserActivity();
-					window.setVisible(true);
-					frmUsers.dispose();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}	
-		});
-		btnAddUser.setBounds(25, 30, 130, 23);
-		frmUsers.getContentPane().add(btnAddUser);
-		
-		btnEditUser = new JButton("Edit User");
-		btnEditUser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					EditUserActivity window = new EditUserActivity();
-					window.setVisible(true);
-					frmUsers.dispose();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnEditUser.setBounds(25, 53, 130, 23);
-		frmUsers.getContentPane().add(btnEditUser);
-
-		btnDeleteUser = new JButton("Delete User");
-		btnDeleteUser.setBounds(25, 76, 130, 23);
-		frmUsers.getContentPane().add(btnDeleteUser);
-
-	//	
-		btnAddbook = new JButton("Add a New Book");
-		btnAddbook.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					AddBookActivity window = new AddBookActivity();
-					window.setVisible(true);
-					frmUsers.dispose();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnAddbook.setBounds(25, 140, 130, 23);
-		frmUsers.getContentPane().add(btnAddbook);
-
-								
-		btnEditbook = new JButton("Edit a Book");
-		btnEditbook.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					EditBookActivity window = new EditBookActivity();
-					window.setVisible(true);
-					frmUsers.dispose();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnEditbook.setBounds(25, 163, 130, 23);
-		frmUsers.getContentPane().add(btnEditbook);
-		
-		btnDeletebook = new JButton("Delete a Book");
-		btnDeletebook.setBounds(25, 186, 130, 23);
-		frmUsers.getContentPane().add(btnDeletebook);
 //		
 		btnBorrowBook = new JButton("Book Activity");
 		btnBorrowBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					LibrarianBorrowBookActivity window = new LibrarianBorrowBookActivity();
+					PatronBorrowBookActivity window = new PatronBorrowBookActivity();
 					window.setVisible(true);
-					frmUsers.dispose();
+					frmPatron.dispose();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -308,12 +232,8 @@ private JTable table_1;
 				
 			}
 		});
-		btnBorrowBook.setBounds(25, 250, 130, 23);
-		frmUsers.getContentPane().add(btnBorrowBook);
-		
-		btnPayFines = new JButton("Pay Fines");
-		btnPayFines.setBounds(25, 272, 130, 23);
-		frmUsers.getContentPane().add(btnPayFines);
+		btnBorrowBook.setBounds(30, 64, 130, 23);
+		frmPatron.getContentPane().add(btnBorrowBook);
 		
 		
 		btnLogout = new JButton("Logout");
@@ -321,7 +241,7 @@ private JTable table_1;
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-					frmUsers.dispose();
+					frmPatron.dispose();
 					LoginActivity window = new LoginActivity();
 					window.showWindow(true);
 				
@@ -331,7 +251,16 @@ private JTable table_1;
 			}
 		});
 		btnLogout.setBounds(25, 350, 130, 23);
-		frmUsers.getContentPane().add(btnLogout);	
+		frmPatron.getContentPane().add(btnLogout);	
+		
+		btnNewButton = new JButton("Help ");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		btnNewButton.setBounds(30, 30, 130, 23);
+		frmPatron.getContentPane().add(btnNewButton);
 	}
 
 	

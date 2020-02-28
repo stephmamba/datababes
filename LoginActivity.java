@@ -20,7 +20,8 @@ public class LoginActivity {
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 
-	Connection conn = null;
+	
+	private static Connection conn = null;
 	protected Object frmUsers;
 	
 	/**
@@ -39,6 +40,25 @@ public class LoginActivity {
 		});
 	}
 
+	private boolean isConnOpen() {
+		
+		String DBURL = "jdbc:oracle:thin:@localhost:1521:orcl";
+		String suname = "test";
+		String spass = "oracle";
+		
+		try {
+			conn = DriverManager.getConnection(DBURL,suname,spass);
+			return true;
+		}catch (SQLException se) {
+			JOptionPane.showMessageDialog(null, se.getMessage(), "SQL Connection Error",1);
+			return false;
+			
+		}catch (Exception e) {
+			return false;
+			
+		}
+	
+	}
 	/**
 	 * Create the application.
 	 */
@@ -80,10 +100,93 @@ public class LoginActivity {
 		frmLogin.getContentPane().add(txtPassword);
 		
 		JButton btnLoginLibrarian = new JButton("Login as Librarian");
+		btnLoginLibrarian.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String username = txtUsername.getText().trim();
+				String passowrd = String.valueOf(txtPassword.getPassword());
+			
+				int count = 0; //counter if a record is found
+				
+				try {
+					
+					if (username.trim().isEmpty() || passowrd.trim().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "User Name and Password must not be empty");
+					} else if (isConnOpen()) {
+						String sql = "SELECT loginid, password FROM patron WHERE username = '"+username+"' AND password = '"+passowrd+"'";
+						Statement st =  conn.createStatement();
+						ResultSet result = st.executeQuery(sql);
+						
+						while (result.next()) {
+							++count; 
+						}
+						
+						//count values:
+						//  1 = record found
+						//  0 = no record found
+						
+						if (count<1) { //no query result 
+							JOptionPane.showMessageDialog(null, "User Not Found", "Login", JOptionPane.WARNING_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null, "Welcome", "Login", JOptionPane.INFORMATION_MESSAGE);
+							UsersActivity.main(null);
+							conn.close(); // close database connection
+							frmLogin.dispose(); // close Login window
+						}
+					}
+					
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+			
+	
 		btnLoginLibrarian.setBounds(20, 148, 140, 23);
 		frmLogin.getContentPane().add(btnLoginLibrarian);
 		
 		JButton btnLoginPatron= new JButton("Login as User");
+		btnLoginPatron.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String username = txtUsername.getText().trim();
+				String passowrd = String.valueOf(txtPassword.getPassword());
+			
+				int count = 0; //counter if a record is found
+				
+				try {
+					
+					if (username.trim().isEmpty() || passowrd.trim().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "User Name and Password must not be empty");
+					} else if (isConnOpen()) {
+						String sql = "SELECT loginid, password FROM patron WHERE username = '"+username+"' AND password = '"+passowrd+"'";
+						Statement st =  conn.createStatement();
+						ResultSet result = st.executeQuery(sql);
+						
+						while (result.next()) {
+							++count; 
+						}
+						
+						//count values:
+						//  1 = record found
+						//  0 = no record found
+						
+						if (count<1) { //no query result 
+							JOptionPane.showMessageDialog(null, "User Not Found", "Login", JOptionPane.WARNING_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null, "Welcome", "Login", JOptionPane.INFORMATION_MESSAGE);
+							PatronActivity.main(null);
+							conn.close(); // close database connection
+							frmLogin.dispose(); // close Login window
+						}
+					}
+					
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+			
 		btnLoginPatron.setBounds(173, 148, 140, 23);
 		frmLogin.getContentPane().add(btnLoginPatron);
 		
@@ -97,6 +200,19 @@ public class LoginActivity {
 		frmLogin.getContentPane().add(btnCancel);
 
 	}
-	
-	
+
+	public void showWindow(boolean b) {
+		// TODO Auto-generated method stub
+		initialize();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					LoginActivity window = new LoginActivity();
+					window.frmLogin.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}	
 }
